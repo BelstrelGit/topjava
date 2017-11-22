@@ -36,7 +36,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
         this.insertMeal = new SimpleJdbcInsert(dataSource)
                 .withTableName("meals")
-                .usingGeneratedKeyColumns("meal_id");
+                .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
 
@@ -47,7 +47,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     public Meal save(Meal meal, int user_id) {
 
         MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("meal_id", meal.getId())
+                .addValue("id", meal.getId())
                 .addValue("user_id", user_id)
                 .addValue("datetime", meal.getDateTime())
                 .addValue("description", meal.getDescription())
@@ -59,19 +59,19 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE meals SET  datetime=:datetime , description=:description ,calories=:calories  "
-                            + " WHERE meal_id=:meal_id AND user_id=:user_id", map);
+                            + " WHERE id=:id AND user_id=:user_id", map);
         }
         return meal;
     }
 
     @Override
-    public boolean delete(int meal_id, int user_id) {
-        return jdbcTemplate.update("DELETE FROM meals WHERE meal_id=? AND user_id=?", meal_id , user_id) != 0;}
+    public boolean delete(int id, int user_id) {
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id , user_id) != 0;}
 
 
     @Override
-    public Meal get(int meal_id, int  user_id) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM  meals WHERE meal_id=? AND user_id=? ", ROW_MAPPER1, meal_id , user_id);
+    public Meal get(int id, int  user_id) {
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM  meals WHERE id=? AND user_id=? ", ROW_MAPPER1, id , user_id);
         return DataAccessUtils.singleResult(meals);
     }
 
