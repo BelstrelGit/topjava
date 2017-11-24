@@ -11,10 +11,16 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class JdbcMealRepositoryImpl implements MealRepository {
@@ -77,14 +83,18 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int user_id) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=?", ROW_MAPPER1 , user_id);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=?  ORDER BY datetime DESC ", ROW_MAPPER1 , user_id);
                // jdbcTemplate.query("SELECT * FROM meals ORDER BY description", ROW_MAPPER1 );
         //list  must be sorted- last eat at up   WHERE user_id=?
 
     }
 
     @Override
-    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int user_id) {
+        return jdbcTemplate.query(
+
+                "SELECT * FROM meals WHERE  datetime >=? AND datetime <=? AND user_id=? ORDER BY datetime DESC ",
+                  ROW_MAPPER1 ,  Timestamp.valueOf(startDate), Timestamp.valueOf(endDate),user_id) ;
     }
-}
+
+    }

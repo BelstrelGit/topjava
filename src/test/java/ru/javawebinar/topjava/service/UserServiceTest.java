@@ -60,7 +60,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get(int id,int user_id ) throws Exception {
         User user = service.get(USER_ID);
         assertMatch(user, USER);
     }
