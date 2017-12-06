@@ -51,6 +51,7 @@ public class Meal extends AbstractBaseEntity {
     //  User ref = em.getReference(User.class, user_id);
 //      meal.setUser(ref);
     @ManyToOne(fetch = FetchType.LAZY)
+//.EAGER
     @JoinColumn(name = "user_id")
     @CollectionTable(name = "users" , joinColumns = @JoinColumn(name = "user_id"))
     private User user;

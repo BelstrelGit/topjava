@@ -18,6 +18,14 @@ import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
+
+//                Optional
+//
+//         3: Добавить в тесты MealServiceTest функциональность @Rule:
+//        3.1: проверку Exception
+//        3.2: вывод в лог времени выполнения каждого теста
+//        3.3: вывод сводки в конце класса: имя теста - время выполнения
+
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"

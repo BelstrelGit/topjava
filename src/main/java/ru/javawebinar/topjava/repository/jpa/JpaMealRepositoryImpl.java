@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = false)
+@Transactional
+        //(readOnly = false)
 public class JpaMealRepositoryImpl implements MealRepository {
 
     @PersistenceContext
@@ -41,7 +42,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
                 .executeUpdate() != 0;
 
     }
-
+    @Transactional(readOnly = true)
     @Override
     public Meal get(int id, int user_id) {
         return em.createNamedQuery(Meal.BY_ID, Meal.class)
@@ -49,14 +50,14 @@ public class JpaMealRepositoryImpl implements MealRepository {
                 .setParameter("user_id", user_id)
                 .getSingleResult();
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<Meal> getAll(int user_id) {
         return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
                 .setParameter("user_id", user_id)
                 .getResultList();
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int user_id) {
         return em.createNamedQuery(Meal.BETWEEN, Meal.class)
